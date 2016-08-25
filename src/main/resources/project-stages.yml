@@ -24,8 +24,8 @@ swarm:
     path: /
 database:
   url: jdbc:jtds:sqlserver://1.2.3.4:1433;DatabaseName=mydb
-  username: teste12
-  password: getin
+  username: sa
+  password: sa
 
 ---
 project:
