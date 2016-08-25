@@ -48,7 +48,6 @@ public class Demo {
     }
 
     private static DatasourcesFraction datasource(Swarm swarm) {
-        //logger = Logger.getLogger(Demo.class);
         logger.infof("Using database.url: %s",swarm.stageConfig().resolve("database.url").getValue());
         logger.infof("Using database.username: %s",swarm.stageConfig().resolve("database.username").getValue());
         return new DatasourcesFraction()
