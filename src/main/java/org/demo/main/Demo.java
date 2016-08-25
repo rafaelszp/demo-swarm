@@ -31,7 +31,7 @@ public class Demo {
         swarm.fraction(datasource(swarm));
         swarm.fraction(logging());
         swarm.start();
-        swarm.deploy();
+        swarm.deploy(archive());
     }
 
     private static WARArchive archive() throws Exception {
