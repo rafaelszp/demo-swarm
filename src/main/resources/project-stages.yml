@@ -1,0 +1,43 @@
+logger:
+    level: DEBUG
+swarm:
+  port:
+    offset: 10
+  context:
+    path: /
+database:
+  url: jdbc:jtds:sqlserver://1.2.3.4:1433;DatabaseName=mydb
+  username: teste12
+  password: getin
+
+---
+project:
+    stage: development
+logger:
+    level: DEBUG
+swarm:
+  port:
+    offset: 50
+  http:
+    port: 9090
+  context:
+    path: /
+database:
+  url: jdbc:jtds:sqlserver://1.2.3.4:1433;DatabaseName=mydb
+  username: teste12
+  password: getin
+
+---
+project:
+    stage: production
+logger:
+    level: INFO
+swarm:
+  port:
+    offset: 100
+  context:
+    path: /demo
+database:
+  url: jdbc:jtds:sqlserver://10.21.152.12:1433;DatabaseName=mydb
+  username: sa
+  password: sa
