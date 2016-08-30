@@ -5,11 +5,11 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.wildfly.swarm.Swarm;
 import org.wildfly.swarm.config.logging.Level;
-import org.wildfly.swarm.container.Container;
 import org.wildfly.swarm.datasources.DatasourcesFraction;
 import org.wildfly.swarm.logging.LoggingFraction;
-import org.wildfly.swarm.spi.api.JARArchive;
+import org.wildfly.swarm.undertow.UndertowFraction;
 import org.wildfly.swarm.undertow.WARArchive;
+import org.wildfly.swarm.webservices.WebServicesFraction;
 
 import java.io.File;
 import java.net.URL;
@@ -29,6 +29,7 @@ public class Demo {
         Swarm swarm = new Swarm(false).withStageConfig(stageConfig);
         logger = Logger.getLogger(Demo.class);
         swarm.fraction(datasource(swarm));
+        swarm.fraction(UndertowFraction.createDefaultFraction()).fraction(webservices());
         swarm.fraction(logging());
         swarm.start();
         swarm.deploy(archive());
@@ -39,12 +40,17 @@ public class Demo {
         WARArchive archive = ShrinkWrap.create( WARArchive.class );
 
 
-        archive.addPackage("org.demo");
+        archive.addPackages(true,"org.demo");
         archive.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"));
         archive.addAsWebInfResource(new ClassLoaderAsset("META-INF/persistence.xml",
                 Demo.class.getClassLoader()), "classes/META-INF/persistence.xml");
         archive.addAllDependencies();
+        logger.infof("Content of war file %s:\n",archive.toString(true));
         return archive;
+    }
+
+    private static WebServicesFraction webservices(){
+        return new WebServicesFraction().applyDefaults().createDefaultFraction();
     }
 
     private static DatasourcesFraction datasource(Swarm swarm) {
