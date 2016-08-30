@@ -29,7 +29,6 @@ public class Demo {
         Swarm swarm = new Swarm(false).withStageConfig(stageConfig);
         logger = Logger.getLogger(Demo.class);
         swarm.fraction(datasource(swarm));
-        swarm.fraction(UndertowFraction.createDefaultFraction()).fraction(webservices());
         swarm.fraction(logging());
         swarm.start();
         swarm.deploy(archive());
@@ -47,10 +46,6 @@ public class Demo {
         archive.addAllDependencies();
         logger.infof("Content of war file %s:\n",archive.toString(true));
         return archive;
-    }
-
-    private static WebServicesFraction webservices(){
-        return new WebServicesFraction().applyDefaults().createDefaultFraction();
     }
 
     private static DatasourcesFraction datasource(Swarm swarm) {
